@@ -1,11 +1,24 @@
 {
-  "allowed_atomic_numbers": [1, 6, 7, 8],
+  "allowed_atomic_numbers": [
+    1,
+    6,
+    7,
+    8
+  ],
   "max_atoms": 8,
   "min_separation_bohr": 0.6,
   "max_centered_radius_bohr": 12.0,
-  "allowed_charges": [0],
+  "allowed_charges": [
+    0
+  ],
   "min_electrons": 1,
-  "max_electrons": 64,
-  "theorem_status": "conditional_on_binding_and_stratum_assumptions",
-  "units": "Bohr; kinetic energy = -Delta"
+  "max_electrons": 100,
+  "allowed_spins": [
+    0,
+    1,
+    2
+  ],
+  "version": "hcno-v1",
+  "units": "Bohr; kinetic energy = -Delta",
+  "theorem_status": "conditional_on_binding_and_stratum_assumptions"
 }

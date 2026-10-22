@@ -1,15 +1,24 @@
-"""Run only after installing PySCF; outputs approximate RKS reference, not exact Ts.
+"""Export numerical RKS water labels with units and frozen-domain provenance."""
 
-python examples/export_water_pyscf.py
-"""
-import numpy as np
-from pauliforge.teachers.pyscf_reference import closed_shell_ks_reference
+from pathlib import Path
 
-# Bohr, neutral H2O; 3 atoms, 10 electrons.
-atoms=[("O",(0,0,0)),("H",(0,1.430,1.107)),("H",(0,-1.430,1.107))]
-r=closed_shell_ks_reference(atoms, basis="sto-3g", xc="pbe")
-np.savez_compressed("water_reference.npz", coords=r["coords"], weights=r["weights"],
-    rho=r["rho"],grad_u=r["grad_u"],pauli_target=np.asarray(r["pauli_target"]),
-    atomic_numbers=np.array([8,1,1]),positions_bohr=np.array([a[1] for a in atoms]),
-    charge=np.array(0))
-print("Saved water_reference.npz", "Pauli label:",r["pauli_target"],r["provenance"])
+from pauliforge.data import save_reference_npz
+from pauliforge.teachers.pyscf_reference import pyscf_reference
+
+
+def main():
+    atoms = [("O", (0, 0, 0)), ("H", (0, 1.430, 1.107)), ("H", (0, -1.430, 1.107))]
+    reference = pyscf_reference(atoms, method="RKS", basis="sto-3g", xc="pbe", grid_level=2)
+    path = save_reference_npz(Path("data/processed/water_reference.npz"), reference, overwrite=True)
+    print(
+        {
+            "path": str(path),
+            "pauli_target_minus_delta": reference["pauli_target"],
+            "status": reference["metadata"]["quality"],
+            "domain": reference["metadata"]["domain_version"],
+        }
+    )
+
+
+if __name__ == "__main__":
+    main()

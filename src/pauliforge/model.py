@@ -1,15 +1,20 @@
-"""Density-only differentiable KEDF prototype with built-in symmetries.
+"""Density-only functionals with exact architectural scalar symmetries.
 
-Inputs are density rho at lab-frame points and volume quadrature weights;
-grad_sqrt_rho is supplied/computed from a density representation, never from
-an orbital hidden state. Pairwise point costs O(G^2): a research baseline,
-not the promised near-linear algorithm or certified physical decoder.
+Kinetic energies use -Delta. XC output uses physical Hartree units. No model
+imports quantum chemistry, density matrices or nuclear features at inference.
 """
-from dataclasses import dataclass
+
+from __future__ import annotations
+
+from dataclasses import asdict, dataclass, is_dataclass
+
 import torch
 from torch import nn
-from torch.nn import functional as F
-from .physics import electron_count, von_weizsaecker, analytic_pauli_lower_bound, critical_integral
+
+from .encoders import build_encoder
+from .heads import ExchangeCorrelationHead, KineticResidualHead, PauliFloorHead
+from .physics import von_weizsaecker
+
 
 @dataclass
 class KEDFOutput:
@@ -19,51 +24,147 @@ class KEDFOutput:
     analytical_pauli_floor: torch.Tensor
     learned_pauli: torch.Tensor
     n: torch.Tensor
+    matrix_representability_certified: bool = False
+    accuracy_status: str = "EMPIRICAL_untrained_or_learned_surrogate"
+
 
 class PauliKEDF(nn.Module):
-    def __init__(self, hidden: int = 48, scales=(0.5, 1.0, 2.0, 4.0),
-                 c_lt: float = 0.0, certified_lt_constant: bool = False):
+    mode = "kinetic_hybrid"
+
+    def __init__(
+        self,
+        hidden=48,
+        scales=(0.5, 1.0, 2.0, 4.0),
+        c_lt=0.0,
+        certified_lt_constant=False,
+        encoder="moment",
+        cutoff=0.75,
+    ):
         super().__init__()
-        self.scales = tuple(float(x) for x in scales)
-        self.c_lt = c_lt
+        self.hidden = int(hidden)
+        if self.hidden <= 0:
+            raise ValueError("positive hidden width required")
+        self.scales = tuple(float(s) for s in scales)
+        self.c_lt = float(c_lt)
+        if isinstance(certified_lt_constant, dict):
+            from .physics import LTConstantEvidence
+
+            certified_lt_constant = LTConstantEvidence(**certified_lt_constant)
         self.certified_lt_constant = certified_lt_constant
-        # dimensionless scalar invariants only; size scales lambda^-2 explicitly
-        self.net = nn.Sequential(nn.Linear(len(self.scales) + 2, hidden),
-                                 nn.SiLU(), nn.Linear(hidden, hidden),
-                                 nn.SiLU(), nn.Linear(hidden, 1))
+        self.encoder_name = str(encoder)
+        self.cutoff = float(cutoff)
+        self.encoder = build_encoder(self.encoder_name, self.scales, self.cutoff)
+        self.floor_head = PauliFloorHead(self.c_lt, self.certified_lt_constant)
+        self.kinetic_head = KineticResidualHead(self.encoder.feature_dim, self.hidden)
+
+    @property
+    def net(self):
+        """Compatibility accessor for the original prototype's trainable head."""
+        return self.kinetic_head.net
+
+    def get_config(self):
+        return {
+            "hidden": self.hidden,
+            "scales": list(self.scales),
+            "c_lt": self.c_lt,
+            "certified_lt_constant": (
+                asdict(self.certified_lt_constant)
+                if is_dataclass(self.certified_lt_constant)
+                else self.certified_lt_constant
+            ),
+            "encoder": self.encoder_name,
+            "cutoff": self.cutoff,
+        }
 
     def descriptors(self, coords, weights, rho):
-        if coords.ndim != 2 or coords.shape[1] != 3 or rho.ndim != 1 or weights.shape != rho.shape or coords.shape[0] != rho.shape[0]:
-            raise ValueError("coords[G,3], weights[G], rho[G] required")
-        if torch.any(rho < 0) or torch.any(weights <= 0) or not torch.isfinite(coords).all():
-            raise ValueError("density nonnegative, quadrature weights positive, finite coords")
-        q = weights * rho
-        n = q.sum()
-        if n.item() <= 1e-12:
-            raise ValueError("zero density mass")
-        center = (q[:, None] * coords).sum(0) / n
-        centered = coords - center
-        ell2 = (q * centered.square().sum(-1)).sum() / n
-        ell = torch.sqrt(torch.clamp(ell2, min=1e-25))
-        r2 = torch.cdist(centered, centered).square() / ell.square()
-        normalized_q = q / n
-        pair = normalized_q[:, None] * normalized_q[None, :]
-        kernels = [(pair * torch.exp(-r2 / (2.0 * s * s))).sum() for s in self.scales]
-        # Int rho^(5/3) has kinetic dimension length^-2; make dimensionless.
-        i53 = critical_integral(rho, weights) * ell2 / n
-        features = torch.stack([torch.log1p(n), torch.log1p(torch.clamp(i53, min=0.0)), *kernels])
-        return features, ell2, n
+        out = self.encoder(coords, weights, rho)
+        return out.features, out.ell2, out.n
 
-    def forward(self, coords: torch.Tensor, weights: torch.Tensor, rho: torch.Tensor,
-                grad_sqrt_rho: torch.Tensor) -> KEDFOutput:
-        feats, ell2, n = self.descriptors(coords, weights, rho)
+    def forward(self, coords, weights, rho, grad_sqrt_rho):
+        features, ell2, n = self.descriptors(coords, weights, rho)
+        if grad_sqrt_rho.shape != coords.shape or not torch.isfinite(grad_sqrt_rho).all():
+            raise ValueError("finite grad_sqrt_rho[G,3] required")
         tw = von_weizsaecker(grad_sqrt_rho, weights)
-        floor = analytic_pauli_lower_bound(rho, weights, tw, self.c_lt,
-                                           self.certified_lt_constant)
-        # Explicit uniform coordinate scaling covariance: ell^-2.
-        # This positive head satisfies a lower bound, NOT the matrix cap by itself.
-        learnt = F.softplus(self.net(feats)).squeeze(-1) / ell2 * torch.relu(n - 2.0)
-        # N<=2 exact sector (continuous at threshold for the learned component).
-        pauli = torch.where(n <= 2.0 + 1e-10, torch.zeros_like(learnt), floor + learnt)
-        return KEDFOutput(ts=tw + pauli, tw=tw, pauli=pauli,
-                          analytical_pauli_floor=floor, learned_pauli=learnt, n=n)
+        floor = self.floor_head(rho, weights, tw, n)
+        residual = self.kinetic_head(features, ell2, n)
+        pauli = floor + residual
+        return KEDFOutput(tw + pauli, tw, pauli, floor, residual, n)
+
+    def forward_density(self, density):
+        density.validate()
+        return self(density.coords, density.weights, density.rho, density.grad_u)
+
+    def forward_fragments(self, fragments):
+        """Additive only for analytically supported nonoverlapping fragments.
+
+        Each fragment must come from CompactPolynomialFragment in modes.py.
+        The actual support balls and represented sample values are checked;
+        arbitrary sampled zeros are not accepted as support certificates.
+        This proves additivity of this composed model, not learned accuracy.
+        """
+        from .modes import CompactPolynomialFragment
+
+        fragments = tuple(fragments)
+        if not fragments or not all(isinstance(f, CompactPolynomialFragment) for f in fragments):
+            raise ValueError("analytic compact polynomial fragments required")
+        for fragment in fragments:
+            fragment.validate()
+        for i, left in enumerate(fragments):
+            for right in fragments[i + 1 :]:
+                distance = torch.linalg.vector_norm(left.center - right.center).item()
+                if distance <= left.radius + right.radius:
+                    raise ValueError(
+                        "fragment supports overlap or touch; exact composition unsupported"
+                    )
+        results = [self.forward_density(fragment.density) for fragment in fragments]
+
+        def total(name):
+            return torch.stack([getattr(value, name) for value in results]).sum()
+
+        return KEDFOutput(
+            *(
+                total(name)
+                for name in ("ts", "tw", "pauli", "analytical_pauli_floor", "learned_pauli", "n")
+            ),
+            accuracy_status="CONDITIONAL_disjoint_support_additivity_EMPIRICAL_accuracy",
+        )
+
+
+@dataclass
+class XCOutput:
+    exc: torch.Tensor
+    exchange: torch.Tensor
+    correlation: torch.Tensor
+    n: torch.Tensor
+    energy_unit: str = "Hartree"
+    accuracy_status: str = "EMPIRICAL_XC_surrogate"
+
+
+class DensityXCModel(nn.Module):
+    mode = "analytical_pauli_xc_ml"
+
+    def __init__(self, hidden=48, scales=(0.5, 1.0, 2.0, 4.0), encoder="moment", cutoff=0.75):
+        super().__init__()
+        self.hidden, self.scales = int(hidden), tuple(float(s) for s in scales)
+        if self.hidden <= 0:
+            raise ValueError("positive hidden width required")
+        self.encoder_name, self.cutoff = str(encoder), float(cutoff)
+        self.encoder = build_encoder(self.encoder_name, self.scales, self.cutoff)
+        self.xc_head = ExchangeCorrelationHead(self.encoder.feature_dim, self.hidden)
+
+    def get_config(self):
+        return {
+            "hidden": self.hidden,
+            "scales": list(self.scales),
+            "encoder": self.encoder_name,
+            "cutoff": self.cutoff,
+        }
+
+    def forward(self, coords, weights, rho, grad_sqrt_rho=None):
+        encoded = self.encoder(coords, weights, rho)
+        head = self.xc_head(encoded.features, encoded.ell2, encoded.n)
+        return XCOutput(head.exc, head.exchange, head.correlation, encoded.n)
+
+    def forward_density(self, density):
+        density.validate()
+        return self(density.coords, density.weights, density.rho, density.grad_u)

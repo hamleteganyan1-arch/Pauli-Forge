@@ -1,0 +1,11 @@
+{
+  "mode": "analytical_pauli_xc_ml",
+  "epochs": 30,
+  "lr": 0.001,
+  "seed": 17,
+  "device": "cpu",
+  "hidden": 48,
+  "encoder": "moment",
+  "validation_fraction": 0.2,
+  "derivative_weight": 0.0
+}
