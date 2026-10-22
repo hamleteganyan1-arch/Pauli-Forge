@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pauliforge"
+version = "0.1.0"
+description = "Density-only Pauli-constrained orbital-free DFT research prototype"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.24", "torch>=2.2"]
+
+[project.optional-dependencies]
+qc = ["pyscf>=2.4"]
+cert = ["cvxpy>=1.4"]
+test = ["pytest>=7.4"]
+
+[project.scripts]
+pauliforge = "pauliforge.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
