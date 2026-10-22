@@ -1,0 +1,36 @@
+name: CPU research checks
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      run_qc:
+        description: Run optional PySCF and expensive refinement checks
+        type: boolean
+        default: false
+jobs:
+  cpu:
+    runs-on: ubuntu-latest
+    env:
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTHONHASHSEED: '17'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install resolved CPU environment
+        run: bash scripts/setup_environment.sh
+      - name: Lint and formatting
+        run: |
+          .venv/bin/ruff check src tests examples
+          .venv/bin/ruff format --check src tests examples
+      - name: CPU tests
+        run: .venv/bin/python -m pytest -q -m 'not qc and not slow' --junitxml=results/ci-cpu.xml
+      - name: Smoke demonstration
+        run: .venv/bin/python examples/smoke.py
+      - name: Optional quantum chemistry tests
+        if: github.event_name == 'workflow_dispatch' && inputs.run_qc
+        run: .venv/bin/python -m pytest -q -m 'qc or slow' --junitxml=results/ci-qc.xml

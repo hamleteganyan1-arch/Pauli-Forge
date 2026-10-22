@@ -7,3 +7,9 @@ __pycache__/
 data/raw/
 data/processed/
 results/
+*.egg-info/
+.ruff_cache/
+build/
+dist/
+.cache/
+*.ipynb_checkpoints/

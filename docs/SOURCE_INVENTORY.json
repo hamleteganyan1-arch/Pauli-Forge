@@ -1,0 +1,70 @@
+{
+  "status": "user_supplied_research_not_independently_peer_reviewed",
+  "files": [
+    {
+      "path": "references/Ts_Adaptive_Multiscale_Physical_Atlas_Proof_RU_2026-10-15.md",
+      "bytes": 43807,
+      "sha256": "7fa1b723f345731a40d58ca6d59c814d795ce82f2ec03cb9bd4b764357fe3af4"
+    },
+    {
+      "path": "references/Ts_D1C_Certified_Weighted_Labels_Full_H1_Proof_RU_2026-10-15.md",
+      "bytes": 57703,
+      "sha256": "45d223fbc10acf139e17d2d7ac578b36facd04cd61574f0fffd0852f81767a05"
+    },
+    {
+      "path": "references/Ts_Direct_Decoder_LogLip_Gram_SDP_Proof_RU_2026-10-18.md",
+      "bytes": 42154,
+      "sha256": "1510051e59c87f074dc0faf14f714a97368f9c3d5680bdf3ba4f8d2e95c3e224"
+    },
+    {
+      "path": "references/Ts_M1_Fifteen_Routes_Aggregate_Decoder_Proof_RU_2026-10-19.md",
+      "bytes": 28290,
+      "sha256": "97f1a68fabc97b91700912242d89a0f9926ef8b99fc2976191c6a7f5ce646b88"
+    },
+    {
+      "path": "references/Ts_M1_Proofs_2026-10-21.md",
+      "bytes": 83190,
+      "sha256": "a8593cc4d90861b4f1c051e84acda7bffe0f44dc2103249a4b567c2fc58462ae"
+    },
+    {
+      "path": "references/Ts_Polynomial_Catalog_Range_Entropy_and_Decoder_RU_2026-10-15.md",
+      "bytes": 33949,
+      "sha256": "db3b9336a1508e12b8600ab518f95f1988769d2e98d6608cb62ffa6a7ae43f98"
+    },
+    {
+      "path": "references/Ts_Spectral_Excess_Overlap_Repair_RU_2026-10-15.md",
+      "bytes": 24733,
+      "sha256": "528dd00d671dc1ea7e59819b95c70a387fc63f5a220bc49b45ee34e0a74d33c5"
+    },
+    {
+      "path": "references/analysis_uploaded.md",
+      "bytes": 54307,
+      "sha256": "40057e936fc5566dec9c7cbc7cdeb09f971d692048d6eba0f03b0259f405102b"
+    },
+    {
+      "path": "references/atlas_uploaded.md",
+      "bytes": 43807,
+      "sha256": "7fa1b723f345731a40d58ca6d59c814d795ce82f2ec03cb9bd4b764357fe3af4"
+    },
+    {
+      "path": "references/physical_smoothing_uploaded.md",
+      "bytes": 21296,
+      "sha256": "d7063bfd2d398844d78179bf148c6147bf17d5188137181060042da3791349e7"
+    },
+    {
+      "path": "references/source_summary_uploaded.txt",
+      "bytes": 47745,
+      "sha256": "d253d6db19335c71c129cfdc721ea7da7729d71bbe760a7282f330be8f29054e"
+    }
+  ],
+  "missing_named_sources": [
+    "Ts_Functional_Strict_Theorem_Archive_2026-10-09.pdf",
+    "Ts_Polynomial_Weighted_Adaptive_Packet_Decoder_RU_2026-10-18.md",
+    "Ts_M1_Decoder_Audit_Exact_Mass_Gradient_9_Slabs_and_Sparse_Theorem_2026-10-20.md",
+    "Ts_M1_Pauli_Direct_Dual_Quantitative_Lower_Certificates_2026-10-21.md"
+  ],
+  "notes": [
+    "The uploaded audit is available as analysis_uploaded.md; an exact-title source should not be assumed byte-identical.",
+    "The duplicate atlas text is recorded separately; duplicate files are not independent evidence."
+  ]
+}
