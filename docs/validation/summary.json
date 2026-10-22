@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-22",
+  "python": "3.12.14",
+  "tests": 170,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "seconds": 18.972,
+  "source_sha256": "c6ed802fc6f4a01c139a2801a59df8c4c454acd094dd3eba02919a9cbd09ff5c",
+  "runtime": {
+    "torch": "2.14.1+cpu",
+    "numpy": "2.5.4",
+    "pyscf": "2.14.0",
+    "cvxpy": "1.9.3",
+    "e3nn": "0.6.0"
+  },
+  "cuda_available": false,
+  "cuda_execution": "UNRUN",
+  "cluster_submission": "UNRUN",
+  "ci_execution": "UNRUN_workflow_added",
+  "pytest_log_sha256": "5fac6afe311ecd970d8d6d285a536462a7faccc8ea897a024bc50bcee2abc284"
+}

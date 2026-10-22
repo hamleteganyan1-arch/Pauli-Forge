@@ -1,70 +1,138 @@
 {
   "status": "user_supplied_research_not_independently_peer_reviewed",
+  "checked_on": "2026-10-22",
   "files": [
+    {
+      "path": "references/1-Ts_M1_Endpoint_Smoothing_and_Polylog_Bandwidth_Atomic_Algorithm_RU_2026-10-20.md",
+      "bytes": 49231,
+      "sha256": "f6514c659697c7f393e05f0ed2117fa1296bf4b80bed0ba6c2ec1f3746b9c6fc",
+      "kind": "user_supplied_source"
+    },
+    {
+      "path": "references/2-Ts_M1_Five_Agent_Sparse_Integration_Search_and_Stability_RU_2026-10-20.md",
+      "bytes": 32906,
+      "sha256": "77fc6815f9771851fb312d77386fe5bc47c2e760b8aafda8bc2de2741d7cac17",
+      "kind": "user_supplied_source"
+    },
+    {
+      "path": "references/3-Ts_Functional_Strict_Theorem_Archive_2026-10-09-1-.pdf",
+      "bytes": 3144742,
+      "sha256": "cfbb9d9e29290dca62ea61da1706a59e3790376e427b18e65417d2ffb543efcf",
+      "kind": "user_supplied_source"
+    },
+    {
+      "path": "references/4-Ts_Adaptive_Multiscale_Physical_Atlas_Proof_RU_2026-10-15-1-.md",
+      "bytes": 43807,
+      "sha256": "7fa1b723f345731a40d58ca6d59c814d795ce82f2ec03cb9bd4b764357fe3af4",
+      "kind": "user_supplied_source"
+    },
+    {
+      "path": "references/5-M1_Claude_Master_Research_Prompt_RU_2026-10-20.md",
+      "bytes": 83333,
+      "sha256": "45fa0053efd90c60e657e21d90d45ff3685f3b995883e3afcb3a2d6e5dd0d359",
+      "kind": "research_handoff"
+    },
+    {
+      "path": "references/PauliForge_Mathematical_Upgrade_Roadmap_RU_2026-10-22.md",
+      "bytes": 27654,
+      "sha256": "e14bbe82371b288be48ed2890b96c011d8d114213febd7486f9e6b41eb02fad6",
+      "kind": "research_roadmap"
+    },
     {
       "path": "references/Ts_Adaptive_Multiscale_Physical_Atlas_Proof_RU_2026-10-15.md",
       "bytes": 43807,
-      "sha256": "7fa1b723f345731a40d58ca6d59c814d795ce82f2ec03cb9bd4b764357fe3af4"
+      "sha256": "7fa1b723f345731a40d58ca6d59c814d795ce82f2ec03cb9bd4b764357fe3af4",
+      "kind": "user_supplied_source"
     },
     {
       "path": "references/Ts_D1C_Certified_Weighted_Labels_Full_H1_Proof_RU_2026-10-15.md",
       "bytes": 57703,
-      "sha256": "45d223fbc10acf139e17d2d7ac578b36facd04cd61574f0fffd0852f81767a05"
+      "sha256": "45d223fbc10acf139e17d2d7ac578b36facd04cd61574f0fffd0852f81767a05",
+      "kind": "user_supplied_source"
     },
     {
       "path": "references/Ts_Direct_Decoder_LogLip_Gram_SDP_Proof_RU_2026-10-18.md",
       "bytes": 42154,
-      "sha256": "1510051e59c87f074dc0faf14f714a97368f9c3d5680bdf3ba4f8d2e95c3e224"
+      "sha256": "1510051e59c87f074dc0faf14f714a97368f9c3d5680bdf3ba4f8d2e95c3e224",
+      "kind": "user_supplied_source"
     },
     {
       "path": "references/Ts_M1_Fifteen_Routes_Aggregate_Decoder_Proof_RU_2026-10-19.md",
       "bytes": 28290,
-      "sha256": "97f1a68fabc97b91700912242d89a0f9926ef8b99fc2976191c6a7f5ce646b88"
+      "sha256": "97f1a68fabc97b91700912242d89a0f9926ef8b99fc2976191c6a7f5ce646b88",
+      "kind": "user_supplied_source"
     },
     {
       "path": "references/Ts_M1_Proofs_2026-10-21.md",
       "bytes": 83190,
-      "sha256": "a8593cc4d90861b4f1c051e84acda7bffe0f44dc2103249a4b567c2fc58462ae"
+      "sha256": "a8593cc4d90861b4f1c051e84acda7bffe0f44dc2103249a4b567c2fc58462ae",
+      "kind": "user_supplied_source"
     },
     {
       "path": "references/Ts_Polynomial_Catalog_Range_Entropy_and_Decoder_RU_2026-10-15.md",
       "bytes": 33949,
-      "sha256": "db3b9336a1508e12b8600ab518f95f1988769d2e98d6608cb62ffa6a7ae43f98"
+      "sha256": "db3b9336a1508e12b8600ab518f95f1988769d2e98d6608cb62ffa6a7ae43f98",
+      "kind": "user_supplied_source"
     },
     {
       "path": "references/Ts_Spectral_Excess_Overlap_Repair_RU_2026-10-15.md",
       "bytes": 24733,
-      "sha256": "528dd00d671dc1ea7e59819b95c70a387fc63f5a220bc49b45ee34e0a74d33c5"
+      "sha256": "528dd00d671dc1ea7e59819b95c70a387fc63f5a220bc49b45ee34e0a74d33c5",
+      "kind": "user_supplied_source"
     },
     {
       "path": "references/analysis_uploaded.md",
       "bytes": 54307,
-      "sha256": "40057e936fc5566dec9c7cbc7cdeb09f971d692048d6eba0f03b0259f405102b"
+      "sha256": "40057e936fc5566dec9c7cbc7cdeb09f971d692048d6eba0f03b0259f405102b",
+      "kind": "user_supplied_source"
     },
     {
       "path": "references/atlas_uploaded.md",
       "bytes": 43807,
-      "sha256": "7fa1b723f345731a40d58ca6d59c814d795ce82f2ec03cb9bd4b764357fe3af4"
+      "sha256": "7fa1b723f345731a40d58ca6d59c814d795ce82f2ec03cb9bd4b764357fe3af4",
+      "kind": "user_supplied_source"
     },
     {
       "path": "references/physical_smoothing_uploaded.md",
       "bytes": 21296,
-      "sha256": "d7063bfd2d398844d78179bf148c6147bf17d5188137181060042da3791349e7"
+      "sha256": "d7063bfd2d398844d78179bf148c6147bf17d5188137181060042da3791349e7",
+      "kind": "user_supplied_source"
     },
     {
       "path": "references/source_summary_uploaded.txt",
       "bytes": 47745,
-      "sha256": "d253d6db19335c71c129cfdc721ea7da7729d71bbe760a7282f330be8f29054e"
+      "sha256": "d253d6db19335c71c129cfdc721ea7da7729d71bbe760a7282f330be8f29054e",
+      "kind": "user_supplied_source"
     }
   ],
+  "duplicate_groups": [
+    [
+      "references/4-Ts_Adaptive_Multiscale_Physical_Atlas_Proof_RU_2026-10-15-1-.md",
+      "references/Ts_Adaptive_Multiscale_Physical_Atlas_Proof_RU_2026-10-15.md",
+      "references/atlas_uploaded.md"
+    ]
+  ],
+  "source_aliases": {
+    "Ts_Functional_Strict_Theorem_Archive_2026-10-09.pdf": "references/3-Ts_Functional_Strict_Theorem_Archive_2026-10-09-1-.pdf",
+    "Ts_Adaptive_Multiscale_Physical_Atlas_Proof_RU_2026-10-15(1).md": "references/4-Ts_Adaptive_Multiscale_Physical_Atlas_Proof_RU_2026-10-15-1-.md",
+    "Ts_M1_Endpoint_Smoothing_and_Polylog_Bandwidth_Atomic_Algorithm_RU_2026-10-20.md": "references/1-Ts_M1_Endpoint_Smoothing_and_Polylog_Bandwidth_Atomic_Algorithm_RU_2026-10-20.md",
+    "Ts_M1_Five_Agent_Sparse_Integration_Search_and_Stability_RU_2026-10-20.md": "references/2-Ts_M1_Five_Agent_Sparse_Integration_Search_and_Stability_RU_2026-10-20.md"
+  },
   "missing_named_sources": [
-    "Ts_Functional_Strict_Theorem_Archive_2026-10-09.pdf",
     "Ts_Polynomial_Weighted_Adaptive_Packet_Decoder_RU_2026-10-18.md",
     "Ts_M1_Decoder_Audit_Exact_Mass_Gradient_9_Slabs_and_Sparse_Theorem_2026-10-20.md",
     "Ts_M1_Pauli_Direct_Dual_Quantitative_Lower_Certificates_2026-10-21.md"
   ],
+  "pdf_archive": {
+    "physical_pages": 239,
+    "extracted_text_path": "results/source_review/strict_archive.txt",
+    "extracted_text_sha256": "1e070ed226c11419a93b0fffa3991c708b9cca3fad67eff4a125d568a195bf7f",
+    "exact_later_proofs_reproduced": false
+  },
   "notes": [
-    "The uploaded audit is available as analysis_uploaded.md; an exact-title source should not be assumed byte-identical.",
-    "The duplicate atlas text is recorded separately; duplicate files are not independent evidence."
+    "New attachments were copied without modifying their bytes or filenames.",
+    "The three atlas files are byte-identical and are not independent evidence.",
+    "The master research prompt and October22 upgrade roadmap describe research obligations/proposals; they do not independently prove their cited missing sources.",
+    "The original research audit is available as analysis_uploaded.md; exact-title identity with other audit versions is not assumed."
   ]
 }

@@ -1,0 +1,111 @@
+{
+  "status": "NUMERICAL_RESEARCH_DEMONSTRATION",
+  "source_sha256": "c6ed802fc6f4a01c139a2801a59df8c4c454acd094dd3eba02919a9cbd09ff5c",
+  "domain_version": "hcno-v1",
+  "domain_hash": "9dc93b6c1cb267497ee846ce936d32e9969e3fd997b38d8582c64a22e3f82c58",
+  "continuum_certified": false,
+  "reference_water": {
+    "ts_target": 149.2009027862694,
+    "tw_target": 115.02259113568896,
+    "pauli_target": 34.178311650580454,
+    "xc_target": -9.366121464369511
+  },
+  "kinetic_hybrid": {
+    "N": 9.999999999999998,
+    "TW_minus_delta": 115.0233301594541,
+    "Pauli_ML": 34.63012119505746,
+    "Ts_ML_minus_delta": 149.65345135451156,
+    "matrix_representability_certified": false,
+    "mass_normalization": 1.000006425031447
+  },
+  "water_joint_sdp": {
+    "ts_minus_delta": 149.2009027862694,
+    "constraint_residual": 1.7053025658242404e-13,
+    "dual_lower_numerical": 149.20090278626935,
+    "gap_numerical": 5.684341886080802e-14,
+    "certified": false,
+    "continuum_certified": false
+  },
+  "analytical_pauli_xc_ml": {
+    "total_hartree": -75.14457101729533,
+    "ts_finite_basis_minus_delta": 149.2009027862694,
+    "pauli_finite_basis_minus_delta": 34.17831165058047,
+    "xc_ml_hartree": -9.285380547809163,
+    "status": "NUMERICAL_finite_basis_not_continuum_certified",
+    "total_density_derivative_available": false
+  },
+  "exact_rational_finite_sdp": {
+    "lower_exact": "3",
+    "upper_exact": "3",
+    "width_exact": "0",
+    "electrons_exact": "2",
+    "basis_dimension": 2,
+    "sampled_points": 2,
+    "source": "references/Ts_D1C_Certified_Weighted_Labels_Full_H1_Proof_RU_2026-10-15.md#5",
+    "status": "PROVED_FINITE_RATIONAL",
+    "scope": "real_rational_finite_basis_sampled_density",
+    "certified_finite_model": true,
+    "continuum_certified": false
+  },
+  "exact_disjoint_packet_subclass": {
+    "n": "5/2",
+    "tw_exact": "75/4",
+    "pauli_exact": "0",
+    "ts_lower": 18.749999999999996,
+    "ts_upper": 18.750000000000004,
+    "status": "PROVED_EXPLICIT_SUBCLASS",
+    "certified_at_epsilon_n": true,
+    "scope": "continuum_explicit_packet_subclass",
+    "general_weighted_packet_status": "BLOCKED_MISSING_SOURCE",
+    "missing_source": "Ts_Polynomial_Weighted_Adaptive_Packet_Decoder_RU_2026-10-18.md"
+  },
+  "training": {
+    "kinetic_hybrid": {
+      "epochs": 30,
+      "first_train_mse_per_electron": 1.596530074115395,
+      "last_train_mse_per_electron": 0.00026638587616553905,
+      "held_out": [
+        "CH4.npz"
+      ],
+      "validation": {
+        "n_samples": 1,
+        "target": "pauli_target",
+        "energy_mae_per_electron": 0.3516413074299621,
+        "max_electron_number_error": 0.0,
+        "pauli_nonnegativity_violations": 0,
+        "status": "EMPIRICAL"
+      }
+    },
+    "xc": {
+      "epochs": 30,
+      "first_train_mse_per_electron": 0.08352453230600816,
+      "last_train_mse_per_electron": 0.0004175614251396519,
+      "held_out": [
+        "CH4.npz"
+      ],
+      "validation": {
+        "n_samples": 1,
+        "target": "xc_target",
+        "energy_mae_per_electron": 0.07691320766602612,
+        "max_electron_number_error": 0.0,
+        "pauli_nonnegativity_violations": null,
+        "status": "EMPIRICAL"
+      }
+    }
+  },
+  "runtime": {
+    "torch": "2.14.1+cpu",
+    "numpy": "2.5.4",
+    "pyscf": "2.14.0",
+    "cvxpy": "1.9.3",
+    "e3nn": "0.6.0"
+  },
+  "cuda_test_status": "UNRUN_no_device",
+  "limitations": [
+    "Small STO-3G/PBE demonstration; no broad chemical accuracy claim.",
+    "CH4 is one held-out composition, not a statistically adequate benchmark.",
+    "ML-normalized grid differs slightly from raw AO density; labels are numerical.",
+    "Mode B's offline kinetic value has no validated total density response.",
+    "The exact packet certificate covers only explicit disjoint packets of mass <=2 each."
+  ]
+}
