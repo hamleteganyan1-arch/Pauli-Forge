@@ -15,7 +15,8 @@ export PIP_CACHE_DIR="${PIP_CACHE_DIR:-$project_dir/.cache/pip}"
 mkdir -p "$PIP_CACHE_DIR" results
 python3 -m venv .venv
 .venv/bin/python -m pip install --disable-pip-version-check --require-hashes \
-    --extra-index-url https://download.pytorch.org/whl/cpu \
+    --index-url https://download.pytorch.org/whl/cpu \
+    --extra-index-url https://pypi.org/simple \
     -r requirements/linux-cpu-py312.lock
 .venv/bin/python -m pip install --disable-pip-version-check --no-deps --no-build-isolation -e .
 .venv/bin/python -m pip check
